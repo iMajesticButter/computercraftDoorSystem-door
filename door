@@ -28,7 +28,7 @@ while true do
 	redstone.setOutput("back", false)
 
 	local sender, message = s_modem.receive()
-	print("message received")
+	print("message received from " .. sender)
 	if sender == keypadAddress then
 		-- message recieved from keypad
 		print("message received from keypad")
