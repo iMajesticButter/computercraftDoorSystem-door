@@ -1,0 +1,44 @@
+local ecnet = require("ecnet")
+os.loadAPI("hash")
+
+local modem = peripheral.find("modem")
+local s_modem = ecnet.wrap(modem)
+
+local myAddress = ecnet.address
+
+-- disable redstone output
+redstone.setOutput("back", false)
+
+-- read address file for address
+local addrFile = fs.open("address", "r")
+local keypadAddress = addrFile.readLine()
+addrFile.close()
+
+local passhash = "7821e3c0151d78def2b6b73aea140ef736b33591c36a6efbd223c400ede731da"
+
+-- program loop
+while true do
+
+	-- disable redstone output
+	redstone.setOutput("back", false)
+
+	local sender, message = s_modem.receive()
+	if sender == keypadAddress then
+		-- message recieved from keypad
+		print("message received from keypad")
+
+		-- hash the message and check it against passhash
+		if hash.hash(message) == passhash then
+			print("message matches password, opening door")
+
+			-- pulse redstone for 1 second
+			redstone.setOutput("back", true)
+			sleep(1)
+			redstone.setOutput("back", false)
+		else
+			print("message does not match password")
+		end
+	end
+
+	sleep(0)
+end
