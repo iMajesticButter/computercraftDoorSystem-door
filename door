@@ -16,6 +16,11 @@ addrFile.close()
 
 local passhash = "7821e3c0151d78def2b6b73aea140ef736b33591c36a6efbd223c400ede731da"
 
+term.clear();
+term.setCursorPos(1, 1);
+
+print("initialized")
+
 -- program loop
 while true do
 
@@ -23,6 +28,7 @@ while true do
 	redstone.setOutput("back", false)
 
 	local sender, message = s_modem.receive()
+	print("message received")
 	if sender == keypadAddress then
 		-- message recieved from keypad
 		print("message received from keypad")
